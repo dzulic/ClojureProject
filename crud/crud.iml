@@ -31,6 +31,7 @@
     <orderEntry type="library" name="Leiningen: joda-time:2.2" level="project" />
     <orderEntry type="library" name="Leiningen: medley:0.6.0" level="project" />
     <orderEntry type="library" name="Leiningen: mysql/mysql-connector-java:5.1.35" level="project" />
+    <orderEntry type="library" name="Leiningen: net.imagej/ij:1.52t" level="project" />
     <orderEntry type="library" name="Leiningen: nrepl:0.6.0" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/clojure:1.10.0" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/core.specs.alpha:0.2.44" level="project" />

@@ -6,6 +6,8 @@
             [ring.middleware.basic-authentication :refer :all]
             [ring.util.response :refer [resource-response response]]
             [ring.middleware.defaults :refer [wrap-defaults api-defaults]]
+            [crud.views :as views]
+            [crud.service :as service]
             )
   (:gen-class))
 
@@ -14,9 +16,17 @@
   (and (= name "admin")
        (= pass "admin")))
 
-(defroutes public-routes)
+(defroutes public-routes
+           (GET "/" [] (views/main-page))
+           (route/resources "/"))
 
-(defroutes protected-routes)
+(defroutes protected-routes
+           (POST "/instagram/login" [] (views/login))
+           (POST "/instagram/analyse" [] (views/analyse))
+           (POST "/instagram/save" [& params]
+                 (do (service/save (:id params) params)
+                     (resp/redirect "views/success")))
+
 
 (defroutes app-routes
            public-routes

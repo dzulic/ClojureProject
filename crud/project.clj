@@ -12,6 +12,8 @@
                  [ring/ring-core "1.3.2"]
                  [ring/ring-json "0.3.1"]
                  [ring/ring-defaults "0.1.5"]
+                 [clj-instagram "0.2.0"]
+                 [net.mikera/imagez "0.12.0"]
                  ]
   :repl-options {:init-ns crud.core}
   :main crud.handler
