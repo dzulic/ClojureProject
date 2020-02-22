@@ -6,8 +6,7 @@
             [ring.middleware.basic-authentication :refer :all]
             [ring.util.response :refer [resource-response response]]
             [ring.middleware.defaults :refer [wrap-defaults api-defaults]]
-            [crud.posts :as posts]
-            [crud.views :as views])
+            )
   (:gen-class))
 
 
