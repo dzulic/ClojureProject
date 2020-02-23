@@ -1,4 +1,4 @@
-(ns crud.core)
+(ns crud.core
+  (:require [crud.instagram :as insta]))
 
-(defn foo
- 5)
+

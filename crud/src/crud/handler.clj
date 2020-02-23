@@ -17,7 +17,7 @@
        (= pass "admin")))
 
 (defroutes public-routes
-           (GET "/" [] (views/main-page))
+           (GET  "/" [] (views/main-page))
            (route/resources "/"))
 
 (defroutes protected-routes
@@ -25,7 +25,7 @@
            (POST "/instagram/analyse" [] (views/analyse))
            (POST "/instagram/save" [& params]
                  (do (service/save (:id params) params)
-                     (resp/redirect "views/success")))
+                     (resp/redirect "views/success"))))
 
 
 (defroutes app-routes
@@ -44,4 +44,3 @@
                            8083))]
     (jetty/run-jetty #'app {:port  port
                             :join? false})))
-

@@ -14,7 +14,8 @@
                  [ring/ring-defaults "0.1.5"]
                  [clj-instagram "0.2.0"]
                  [net.mikera/imagez "0.12.0"]
+                 [hiccup "1.0.5"]
                  ]
-  :repl-options {:init-ns crud.core}
   :main crud.handler
+  :ring {:handler crud.handler/app}
   )
