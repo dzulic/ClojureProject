@@ -22,21 +22,31 @@
                                                                       [:dateOfBirth "VARCHAR(32)"]
                                                                       ]))
 
+(defn create-image-sql [] (jdbc/create-table-ddl :image_analyser.image [[:id :serial "PRIMARY KEY"]
+                                                                        [:filename "VARCHAR(32)"]
+                                                                        [:value "VARCHAR(32)"]
+                                                                        [:userid "VARCHAR(32)"]
+                                                                        [:contenttype "VARCHAR(32)"]
+                                                                        ]))
 
 (defn db-schema-migrated?
   "Check if the schema has been migrated to the database"
   []
   (-> (jdbc/query db
                   [(str "select count(*) from information_schema.tables "
-                        "where table_name='user'")])
+                        "where table_name=user")])
       first :count pos?))
 
 (defn apply-schema-migration
   "Apply the schema to the database"
   []
   (when (not (db-schema-migrated?))
-    (jdbc/db-do-commands db (create-user-sql))))
-
+    (do
+      (jdbc/db-do-commands db (create-user-sql))
+      (jdbc/db-do-commands db (create-image-sql))
+      )
+    )
+  )
 (apply-schema-migration)
 
 (defn user-create [user]
@@ -48,3 +58,10 @@
 
 (defn user-login [user]
   (first (jdbc/query db (string/join "" ["SELECT * FROM image_analyser.user WHERE username = '" (user :username) "' AND password = '" (user :password) "'"]))))
+
+(defn image-create [img]
+  (jdbc/insert! db :image_analyser.image {:filename    (img :filename)
+                                          :image       (img :image)
+                                          :userid      (img :userid)
+                                          :contenttype (img :contenttype)
+                                          }))

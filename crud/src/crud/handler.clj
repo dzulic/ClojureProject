@@ -8,7 +8,9 @@
             [ring.middleware.defaults :refer [wrap-defaults api-defaults]]
             [crud.views :as views]
             [crud.service :as service]
-            [ring.util.response :as response])
+            [ring.util.response :as response]
+            [ring.middleware.params :refer [wrap-params]]
+            [ring.middleware.multipart-params :refer [wrap-multipart-params]])
   (:gen-class))
 
 (defroutes protected-routes
@@ -18,14 +20,17 @@
            (GET "/main" [] (views/main-page))
            (GET "/create" [] (views/create-user))
            (POST "/save" [& params]
-             (do (service/save params)))
+             (do (service/save params)
+                 (response/redirect (views/login))))
            (POST "/do-login" [& params]
-                                     (do (service/login params)))
-           (GET "/login" [] (views/login)))
-
+             (do (service/login params)
+                 (response/redirect (views/success))))
+           (GET "/login" [] (views/login))
+           (POST "/upload-file" {{und :params} :arguments :as arguments}
+             (service/upload-file (val (first (get arguments :params)))
+             )))
 (defroutes home-routes
            (GET "/success" [] (views/success))
-           (GET "/callback" [] (views/callback))
            (route/resources "/"))
 
 
@@ -36,6 +41,8 @@
 
 (def app
   (-> app-routes
+      wrap-multipart-params
+      wrap-params
       (wrap-defaults api-defaults)))
 
 (defn -main

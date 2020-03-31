@@ -20,7 +20,13 @@
   )
 
 (defn main-page []
-  (layout "Analyser"))
+  (layout "Analyser"
+          [:div {:class "row"}
+           [:div {:class "col-lg-6"}
+            (f/form-to {:role "form" :enctype "multipart/form-data"} [:post "/upload-file"]
+                       (f/file-upload {:class "form-control"} "file") [:br]
+                       (f/submit-button {:class "btn btn-primary"} "Submit")
+                       )]]))
 
 
 (defn create-user []
@@ -53,8 +59,11 @@
                        (f/label {} "body" "Password") [:br]
                        (f/password-field {:class "form-control"} "password") [:br]
                        (f/submit-button {:class "btn btn-primary"} "Submit"))]]))
+(defn upload []
+  )
+
 (def analyse)
-(def upload)
+
 
 (defn success []
   (layout "SUCCESS"
@@ -63,13 +72,4 @@
             [:p "WOOOOHOOOOOO!"]
             [:p "It is a success!"]
             ]]))
-
-(defn callback []
-  (layout "Callback"
-          [:div {:class "row"}
-           [:div {:class "col-lg-6"}
-            [:p "CALLL!"]
-            ]]))
-
-
 
