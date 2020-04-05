@@ -23,8 +23,8 @@
                                                                       ]))
 
 (defn create-image-sql [] (jdbc/create-table-ddl :image_analyser.image [[:id :serial "PRIMARY KEY"]
-                                                                        [:filename "VARCHAR(32)"]
-                                                                        [:value "VARCHAR(32)"]
+                                                                        [:filename "VARCHAR(255)"]
+                                                                        [:value "BYTEA"]
                                                                         [:userid "VARCHAR(32)"]
                                                                         [:contenttype "VARCHAR(32)"]
                                                                         ]))
@@ -32,10 +32,9 @@
 (defn db-schema-migrated?
   "Check if the schema has been migrated to the database"
   []
-  (-> (jdbc/query db
-                  [(str "select count(*) from information_schema.tables "
-                        "where table_name=user")])
-      first :count pos?))
+  (-> (jdbc/query db [(str "SELECT EXISTS (SELECT FROM information_schema.tables  WHERE  table_schema = 'image_analyser'   AND    table_name   = 'image'  )")])
+      first :exists)
+  )
 
 (defn apply-schema-migration
   "Apply the schema to the database"
@@ -60,8 +59,9 @@
   (first (jdbc/query db (string/join "" ["SELECT * FROM image_analyser.user WHERE username = '" (user :username) "' AND password = '" (user :password) "'"]))))
 
 (defn image-create [img]
+  (println img)
   (jdbc/insert! db :image_analyser.image {:filename    (img :filename)
-                                          :image       (img :image)
+                                          :value       (img :value)
                                           :userid      (img :userid)
                                           :contenttype (img :contenttype)
                                           }))
