@@ -55,8 +55,8 @@
                                          :email       (user :email)
                                          :dateOfBirth (user :dateOfBirth)}))
 
-(defn user-login [user]
-  (first (jdbc/query db (string/join "" ["SELECT * FROM image_analyser.user WHERE username = '" (user :username) "' AND password = '" (user :password) "'"]))))
+(defn user-login [user pass]
+  (first (jdbc/query db (string/join "" ["SELECT * FROM image_analyser.user WHERE username = '" user "' AND password = '" pass "'"]))))
 
 (defn image-create [img]
   (println img)

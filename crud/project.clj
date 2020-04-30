@@ -8,6 +8,7 @@
                  [clojure.jdbc/clojure.jdbc-c3p0 "0.3.3"]
                  [clj-postgresql "0.7.0"]
                  [ring-basic-authentication "1.0.5"]
+                 [ring-http-basic-auth "0.0.2"]
                  [compojure "1.3.4"]
                  [ring/ring-jetty-adapter "1.3.2"]
                  [ring/ring-core "1.3.2"]
