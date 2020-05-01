@@ -59,10 +59,14 @@
                        (f/label {} "body" "Password") [:br]
                        (f/password-field {:class "form-control"} "password") [:br]
                        (f/submit-button {:class "btn btn-primary"} "Submit"))]]))
-(defn upload []
-  )
-
 (def analyse)
+
+(defn gallery [array]
+  (println array)
+  (layout "Gallery"
+          [:div {:class "row"}
+           [:div {:class "col-lg-6"}
+            [:img {:src (str "data:image/png;base64," array)}]]]))
 
 
 (defn success []

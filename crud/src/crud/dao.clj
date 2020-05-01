@@ -65,3 +65,9 @@
                                           :userid      (img :userid)
                                           :contenttype (img :contenttype)
                                           }))
+
+(defn get-image [id]
+  (first (jdbc/query db (string/join ""["SELECT value FROM image_analyser.image WHERE id = "id""]))))
+
+(defn get-all-images [userId]
+  (jdbc/query db (string/join "" ["SELECT value FROM image_analyser.image WHERE userId = '" userId "'"])))
