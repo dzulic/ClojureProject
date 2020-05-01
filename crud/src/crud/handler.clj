@@ -39,7 +39,7 @@
            (POST "/upload-file" {{und :params} :arguments :as arguments}
              (service/upload-file (val (first (get arguments :params)))))
            (GET "/gallery" [] (views/gallery (service/show-all)))
-           (GET "/get" [] (views/gallery (service/get-image)))
+           (GET "/get" [] (views/analyse (service/get-image)))
 
            )
 (defroutes home-routes
