@@ -19,14 +19,23 @@
     [:body
      [:div {:class "header"}
       [:img {:src "favicon.ico" :class "logo"}]
-      [:h1 "Image Fixer"]]
+      [:h1 "Image Fixer"]
+      [:div {:class "navigation"}
+       [:a {:href "/"} "Home"]
+       [:a {:href "/upload"} "Upload to gallery"]
+       [:a {:href "/gallery"} "Gallery"]
+       [:a {:href "/login"} "Login"]
+       [:a {:href "/create"} "Create user"]
+       [:a {:href "/logout"} "Logout"]
+       ]
+      ]
      [:div {:class "container"} content]
      [:div {:class "footer"}]
      ])
   )
 
-(defn main-page []
-  (layout "Fixer"
+(defn upload-file []
+  (layout "Upload File"
           [:div {:class "row"}
            [:div {:class "col-lg-8 offset-lg-2"}
             (f/form-to {:role "form" :enctype "multipart/form-data"} [:post "/upload-file"]
@@ -71,8 +80,8 @@
                        (f/password-field {:class "form-control"} "password") [:br]
                        (f/submit-button {:class "btn btn-primary"} "Submit"))]]))
 
-(defn analyse [img]
-  (layout "Image"
+(defn fixer [img]
+  (layout "Image Fixer"
           [:div {:class "row"}
            [:div {:class "col-lg-8 offset-lg-2"}
             (f/form-to {:role "form" :enctype "multipart/form-data"} [:post "/getpixels"]
@@ -97,3 +106,9 @@
                                [:img {:src (str "data:image/png;base64," (get x :val)) :class "gallery"}]])
                         ]
                        (f/submit-button {:class "btn btn-primary"} "Edit image"))]]))
+(defn main []
+  (layout "Home"
+          [:div {:class "row"}
+           [:div {:class "col-lg-8 offset-lg-2"}
+            [:h2 "Welcome"]
+            ]]))

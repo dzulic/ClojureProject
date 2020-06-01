@@ -109,3 +109,15 @@ img.gallery {
 input {
     margin-right: 10px;
 }
+
+a{
+    color: black;
+    padding-right: 15px;
+}
+
+.navigation{
+    float: right;
+    margin-top: 25px;
+    margin-right: 25px;
+    font-size: 15px;
+}

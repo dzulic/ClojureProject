@@ -25,7 +25,8 @@
                                     (GET "/asas" [] "as")))
 
 (defroutes public-routes
-           (GET "/main" [] (views/main-page))
+           (GET "/" [] (views/main))
+           (GET "/upload" [] (views/upload-file))
            (GET "/create" [] (views/create-user))
            (POST "/save" [& params]
              (do (service/save params)
@@ -40,7 +41,7 @@
              (service/upload-file (val (first (get arguments :params))) (val (second (get arguments :params)))))
            (GET "/gallery" [] (views/gallery (service/show-all)))
            (GET "/get" [& params]
-             (views/analyse (service/get-image (get params :id))))
+             (views/fixer (service/get-image (get params :id))))
            (POST "/getpixels" [& params] (service/get-pixels (get params "image")))
            )
 (defroutes home-routes
