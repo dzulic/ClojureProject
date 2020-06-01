@@ -36,21 +36,20 @@
            (GET "/logout" [req]
              (assoc (redirect "/") :session nil))
            (GET "/login" [] (views/login))
-           (POST "/upload-file" {{und :params} :arguments :as arguments}
-             (service/upload-file (val (first (get arguments :params)))))
+           (POST "/upload-file" {{par :params} :arguments :as arguments}
+             (service/upload-file (val (first (get arguments :params))) (val (second (get arguments :params)))))
            (GET "/gallery" [] (views/gallery (service/show-all)))
-           (GET "/get" [] (views/analyse (service/get-image)))
-
+           (GET "/get" [& params]
+             (views/analyse (service/get-image (get params :id))))
+           (POST "/getpixels" [& params] (service/get-pixels (get params "image")))
            )
 (defroutes home-routes
-           (GET "/success" [] (views/success))
            (route/resources "/"))
 
 
 (defroutes app-routes
            public-routes
            home-routes
-           protected-routes
            (route/not-found "Not Found"))
 
 

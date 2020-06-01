@@ -1,6 +1,4 @@
-(ns crud.image-helper
-  (:require
-    [clojure.data.codec.base64 :as b64-codec])
+(ns crud.helper
   (:import (javax.imageio ImageIO)
            (java.io ByteArrayOutputStream FileInputStream)
            (java.awt.geom AffineTransform)
@@ -8,11 +6,7 @@
            (javax.imageio ImageIO)
            (java.util Base64)))
 
-(defn file->byte-array [x]
-  (with-open [input (FileInputStream. x)
-              buffer (ByteArrayOutputStream.)]
-    (clojure.java.io/copy input buffer)
-    (.toByteArray buffer)))
+(defn bufferedImage [img] (BufferedImage. (.getWidth img) (.getHeight img) (.getType img)))
 
 (defn scale [img ratio width height]
   (let [scale (AffineTransform/getScaleInstance

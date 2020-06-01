@@ -70,4 +70,4 @@
   (first (jdbc/query db (string/join ""["SELECT value FROM image_fixer.image WHERE id = "id""]))))
 
 (defn get-all-images [userId]
-  (jdbc/query db (string/join "" ["SELECT value FROM image_fixer.image WHERE userId = '" userId "'"])))
+  (jdbc/query db (string/join "" ["SELECT value, id FROM image_fixer.image WHERE userId = '" userId "'"])))

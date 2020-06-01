@@ -2,6 +2,7 @@
   (:use [hiccup.page :refer :all])
   (:require [hiccup.core :refer (html)]
             [hiccup.form :as f]
+            [hiccup.element :require image]
             ))
 
 (defn layout [title & content]
@@ -30,7 +31,12 @@
            [:div {:class "col-lg-8 offset-lg-2"}
             (f/form-to {:role "form" :enctype "multipart/form-data"} [:post "/upload-file"]
                        (f/file-upload {:class "form-control"} "file") [:br]
-                       (f/submit-button {:class "btn btn-primary"} "Submit")
+                       (f/label {} "name" "Image Name") [:br]
+                       (f/text-field {:class "form-control"} "name") [:br]
+                       [:div {:class "row"}
+                        (f/submit-button {:class "btn btn-primary btn-center"} "Save image")]
+                       [:div {:class "row"}
+                        [:button {:type "button" :class "btn btn-primary btn-center" :onclick "window.location.href='/gallery'"} "Go to gallery"]]
                        )]]))
 
 
@@ -69,30 +75,25 @@
   (layout "Image"
           [:div {:class "row"}
            [:div {:class "col-lg-8 offset-lg-2"}
-            [:div {:class "row"}
-             [:img {:src (str "data:image/png;base64," img)}]]
-            [:div {:class "row"}
-             [:button {:type "button" :class "back" :onclick "window.location.href='/gallery'"} "Go back to gallery"]]
-            ]]))
+            (f/form-to {:role "form" :enctype "multipart/form-data"} [:post "/getpixels"]
+                       [:div {:class "row"}
+                        [:img {:src (str "data:image/png;base64," img) :id "big-image"}]]
+                       (f/hidden-field "image" img)
+                       [:div {:class "row"}
+                        [:button {:type "button" :class "btn btn-primary" :onclick "window.location.href='/gallery'"} "Go back to gallery"]
+                        (f/submit-button {:class "btn btn-primary"} "Get pixels")]
+                       )]]))
 
 (defn gallery [array]
   (layout "Gallery"
           [:div {:class "row"}
            [:div {:class "col-lg-8 offset-lg-2"}
             [:h2 "Here is your gallery"]
-            [:ul
-             (for [x array]
-               [:li [:img {:src (str "data:image/png;base64," x)}]])]
-            ]]))
-
-
-
-
-(defn success []
-  (layout "SUCCESS"
-          [:div {:class "row"}
-           [:div {:class "col-lg-8 offset-lg-2"}
-            [:p "WOOOOHOOOOOO!"]
-            [:p "It is a success!"]
-            ]]))
-
+            [:h3 "Select image to edit"]
+            (f/form-to {:role "form" :enctype "multipart/form-data"} [:get "/get"]
+                       [:ul (for [x array]
+                              [:li
+                               [:input {:type :radio :value (get x :id) :name "id"}]
+                               [:img {:src (str "data:image/png;base64," (get x :val)) :class "gallery"}]])
+                        ]
+                       (f/submit-button {:class "btn btn-primary"} "Edit image"))]]))

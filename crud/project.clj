@@ -7,16 +7,14 @@
                  [org.clojure/java.jdbc "0.7.11"]
                  [clojure.jdbc/clojure.jdbc-c3p0 "0.3.3"]
                  [clj-postgresql "0.7.0"]
-                 [ring-basic-authentication "1.0.5"]
                  [compojure "1.6.1"]
+                 [ring-basic-authentication "1.0.5"]
                  [ring/ring-jetty-adapter "1.3.2"]
                  [ring/ring-core "1.3.2"]
                  [ring/ring-json "0.3.1"]
                  [ring/ring-defaults "0.1.5"]
                  [net.mikera/imagez "0.12.0"]
-                 [org.clojure/data.codec "0.1.1"]
-                 [hiccup "1.0.5"]
-                 ]
+                 [hiccup "1.0.5"]]
   :main crud.handler
   :ring {:handler crud.handler/app}
   )
