@@ -6,8 +6,6 @@
            (javax.imageio ImageIO)
            (java.util Base64)))
 
-(defn bufferedImage [img] (BufferedImage. (.getWidth img) (.getHeight img) (.getType img)))
-
 (defn scale [img ratio width height]
   (let [scale (AffineTransform/getScaleInstance
                 (double ratio) (double ratio))

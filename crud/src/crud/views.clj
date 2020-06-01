@@ -86,8 +86,10 @@
            [:div {:class "col-lg-8 offset-lg-2"}
             (f/form-to {:role "form" :enctype "multipart/form-data"} [:post "/getpixels"]
                        [:div {:class "row"}
-                        [:img {:src (str "data:image/png;base64," img) :id "big-image"}]]
-                       (f/hidden-field "image" img)
+                        [:img {:src (str "data:image/png;base64," (get img :val)) :id "big-image"}]]
+                       (f/label {} "body" (get img :name)) [:br]
+                       (f/hidden-field "image" (get img :val))
+                       (f/hidden-field "id" (get img :id))
                        [:div {:class "row"}
                         [:button {:type "button" :class "btn btn-primary" :onclick "window.location.href='/gallery'"} "Go back to gallery"]
                         (f/submit-button {:class "btn btn-primary"} "Get pixels")]
