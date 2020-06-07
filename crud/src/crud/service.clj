@@ -1,8 +1,11 @@
 (ns crud.service
   (:require [crud.dao :as dao]
             [crud.helper :as helper]
-            [mikera.image.core :as mikera])
+            [clojure.java.io :as io])
+  (:import (java.awt Color)
+           (processing.core PImage))
   )
+
 (defn- get-image-details [x]
   (into
     {:val  (helper/getBase64 (x :value))
@@ -18,7 +21,7 @@
 (defn upload-file [file name]
   (dao/image-create
     {:filename    name
-     :value       (helper/image->byte-array (helper/scale-image (get file :tempfile) 100))
+     :value       (helper/image->byte-array (get file :tempfile))
      :contenttype (get file :content-type)
      :userid      1}))
 
@@ -26,8 +29,15 @@
 (defn get-image [id]
   (get-image-details (dao/get-image id)))
 
+(defn get-p-image [id]
+  (PImage. (helper/bfimage (get (dao/get-image id) :value))))
+
 (defn get-pixels [id]
-  (println id)
-  (mikera/get-pixels
-    ((dao/get-image id) :value)
-    ))
+  (let [pimage (get-p-image id)]
+    (.loadPixels pimage)
+    (let [array
+          (for [x (range (count (.pixels pimage)))]
+            (helper/convertHexToRGB (clojure.string/replace (aget (.pixels pimage) x) #"-" "")))]
+      array))
+  )
+

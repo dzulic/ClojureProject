@@ -1,28 +1,30 @@
 (ns crud.helper
   (:import (javax.imageio ImageIO)
-           (java.io ByteArrayOutputStream FileInputStream)
-           (java.awt.geom AffineTransform)
-           (java.awt.image AffineTransformOp BufferedImage)
+           (java.io ByteArrayOutputStream FileInputStream ByteArrayInputStream)
            (javax.imageio ImageIO)
            (java.util Base64)))
 
-(defn scale [img ratio width height]
-  (let [scale (AffineTransform/getScaleInstance
-                (double ratio) (double ratio))
-        transform-op (AffineTransformOp.
-                       scale AffineTransformOp/TYPE_BILINEAR)]
-    (.filter transform-op img (BufferedImage. width height (.getType img)))))
+(defn bfimage [array]
+  (let [img (ByteArrayInputStream. array)]
+    (ImageIO/read img)))
 
-(defn scale-image [file thumb-size]
-  (let [img (ImageIO/read file)
-        img-width (.getWidth img)
-        img-height (.getHeight img)
-        ratio (/ thumb-size img-height)]
-    (scale img ratio (int (* img-width ratio)) thumb-size)))
 
 (defn image->byte-array [image]
   (let [baos (ByteArrayOutputStream.)]
-    (ImageIO/write image "jpeg" baos)
+    (ImageIO/write (ImageIO/read image) "jpg" baos)
     (.toByteArray baos)))
 
 (defn getBase64 [img-bytes] (.encodeToString (Base64/getEncoder) img-bytes))
+
+(defn convertHexToRGB [val]
+  (let [hexInt (Integer/parseInt val)]
+    (let [r (bit-shift-right (bit-and hexInt 0xFF0000) 16)
+          g (bit-shift-right (bit-and hexInt 0xFF00) 8)
+          b (bit-and hexInt 0xFF)]
+      (into [r g b])
+      )))
+
+(defn hex->rgb [[_ & rgb]]
+  (map #(->> % (apply str "0x") (Long/decode))
+       (partition 2 rgb)))
+
