@@ -1,9 +1,6 @@
 (ns crud.service
   (:require [crud.dao :as dao]
-            [crud.helper :as helper]
-            [clojure.java.io :as io])
-  (:import (java.awt Color)
-           (processing.core PImage))
+            [crud.helper :as helper])
   )
 
 (defn- get-image-details [x]
@@ -17,7 +14,6 @@
                           (if (or (= nil result) (= nil :username result))
                             (throw (Exception. "No user found"))
                             result)))
-; TODO change user
 (defn upload-file [file name]
   (dao/image-create
     {:filename    name
@@ -29,11 +25,8 @@
 (defn get-image [id]
   (get-image-details (dao/get-image id)))
 
-(defn get-p-image [id]
-  (PImage. (helper/bfimage (get (dao/get-image id) :value))))
-
 (defn get-pixels [id]
-  (let [pimage (get-p-image id)]
+  (let [pimage (helper/get-p-image (dao/get-image id))]
     (.loadPixels pimage)
     (let [array
           (for [x (range (count (.pixels pimage)))]
@@ -41,3 +34,17 @@
       array))
   )
 
+(defn convert-to-black-and-white [id]
+  (let [pimage (helper/get-p-image (dao/get-image id))
+        height (.width pimage)
+        width (.height pimage)]
+    (.loadPixels pimage)
+    (let [array
+          (for [x (range (count (.pixels pimage)))]
+            (helper/convertHexToRGB (clojure.string/replace (aget (.pixels pimage) x) #"-" "")))]
+      (for [x (range (* height width))]
+        ((clojure.string/replace (aget (.pixels pimage) x) #"-" "")
+         (aset (.pixels pimage) x (get array x)))))
+
+    (.updatePixels pimage)
+    (.getImage pimage)))

@@ -14,6 +14,7 @@
                  [ring/ring-json "0.3.1"]
                  [ring/ring-defaults "0.1.5"]
                  [net.mikera/imagez "0.12.0"]
+                 [quil/quil "2.3.0"]
                  [hiccup "1.0.5"]]
   :main crud.handler
   :ring {:handler crud.handler/app}

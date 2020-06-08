@@ -2,7 +2,10 @@
   (:import (javax.imageio ImageIO)
            (java.io ByteArrayOutputStream FileInputStream ByteArrayInputStream)
            (javax.imageio ImageIO)
-           (java.util Base64)))
+           (java.util Base64)
+           (java.awt Color)
+           (processing.core PImage))
+  (:require [clojure.java.io :as io]))
 
 (defn bfimage [array]
   (let [img (ByteArrayInputStream. array)]
@@ -28,3 +31,5 @@
   (map #(->> % (apply str "0x") (Long/decode))
        (partition 2 rgb)))
 
+(defn get-p-image [img]
+  (PImage. (bfimage (get img :value))))

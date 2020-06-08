@@ -42,7 +42,7 @@
            (GET "/gallery" [] (views/gallery (service/show-all)))
            (GET "/get" [& params]
              (views/fixer (service/get-image (get params :id))))
-           (POST "/getpixels" [& params] (service/get-pixels (get params "id"))))
+           (POST "/getpixels" [& params] (service/convert-to-black-and-white (get params "id"))))
 (defroutes home-routes
            (route/resources "/"))
 
