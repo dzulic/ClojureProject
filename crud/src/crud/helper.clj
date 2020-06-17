@@ -11,6 +11,10 @@
   (let [img (ByteArrayInputStream. array)]
     (ImageIO/read img)))
 
+(defn bfimage->byte-array [image]
+  (let [baos (ByteArrayOutputStream.)]
+    (ImageIO/write image "jpg" baos)
+    (.toByteArray baos)))
 
 (defn image->byte-array [image]
   (let [baos (ByteArrayOutputStream.)]

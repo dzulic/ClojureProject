@@ -25,26 +25,24 @@
 (defn get-image [id]
   (get-image-details (dao/get-image id)))
 
-(defn get-pixels [id]
-  (let [pimage (helper/get-p-image (dao/get-image id))]
-    (.loadPixels pimage)
-    (let [array
-          (for [x (range (count (.pixels pimage)))]
-            (helper/convertHexToRGB (clojure.string/replace (aget (.pixels pimage) x) #"-" "")))]
-      array))
+(defn average-array [a]
+  (int (Math/ceil (/ (reduce + a) (count a))))
   )
+
+(defn get-pixels [pimage]
+  (let [array
+        (for [x (range (count (.pixels pimage)))]
+          (let [p (helper/convertHexToRGB (clojure.string/replace (aget (.pixels pimage) x) #"-" ""))]
+            (aset (.pixels pimage) x (average-array p))
+            )
+          )]
+    array))
 
 (defn convert-to-black-and-white [id]
   (let [pimage (helper/get-p-image (dao/get-image id))
         height (.width pimage)
         width (.height pimage)]
     (.loadPixels pimage)
-    (let [array
-          (for [x (range (count (.pixels pimage)))]
-            (helper/convertHexToRGB (clojure.string/replace (aget (.pixels pimage) x) #"-" "")))]
-      (for [x (range (* height width))]
-        ((clojure.string/replace (aget (.pixels pimage) x) #"-" "")
-         (aset (.pixels pimage) x (get array x)))))
-
     (.updatePixels pimage)
-    (.getImage pimage)))
+    (.loadPixels pimage)
+    (helper/getBase64 (helper/bfimage->byte-array (.getNative pimage)))))

@@ -92,7 +92,19 @@
                        (f/hidden-field "id" (get img :id))
                        [:div {:class "row"}
                         [:button {:type "button" :class "btn btn-primary" :onclick "window.location.href='/gallery'"} "Go back to gallery"]
-                        (f/submit-button {:class "btn btn-primary"} "Get pixels")]
+                        (f/submit-button {:class "btn btn-primary"} "Try to fix it")]
+                       )]]))
+
+(defn view-image [img]
+  (layout "Image Fixer"
+          [:div {:class "row"}
+           [:div {:class "col-lg-8 offset-lg-2"}
+            (f/form-to {:role "form" :enctype "multipart/form-data"} [:post "/getpixels"]
+                       [:div {:class "row"}
+                        [:img {:src (str "data:image/png;base64," img) :id "big-image"}]]
+                       [:div {:class "row"}
+                        [:button {:type "button" :class "btn btn-primary" :onclick "window.location.href='/gallery'"} "Go back to gallery"]
+                        ]
                        )]]))
 
 (defn gallery [array]
