@@ -1,12 +1,12 @@
-(ns crud.handler
+(ns imagefixer.handler
   (:require [compojure.route :as route]
             [compojure.core :refer [GET POST defroutes context]]
             [ring.adapter.jetty :as jetty]
             [ring.util.response :refer :all]
             [ring.middleware.basic-authentication :refer [wrap-basic-authentication]]
             [ring.middleware.defaults :refer [wrap-defaults api-defaults]]
-            [crud.views :as views]
-            [crud.service :as service]
+            [imagefixer.views :as views]
+            [imagefixer.service :as service]
             [ring.middleware.params :refer [wrap-params]]
             [ring.middleware.multipart-params :refer [wrap-multipart-params]]
             [ring.middleware.session :as session]
@@ -61,11 +61,3 @@
       (wrap-defaults api-defaults)
       (session/wrap-session)))
 
-(defn -main
-  [& [port]]
-  (let [port (Integer. (or port
-                           (System/getenv "PORT")
-                           8083))]
-    (jetty/run-jetty #'app {:port  port
-                            :join? false}))
-  )

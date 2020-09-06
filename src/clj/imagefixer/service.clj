@@ -1,6 +1,6 @@
-(ns crud.service
-  (:require [crud.dao :as dao]
-            [crud.helper :as helper])
+(ns imagefixer.service
+  (:require [imagefixer.dao :as dao]
+            [imagefixer.helper :as helper])
   )
 
 (defn- get-image-details [x]

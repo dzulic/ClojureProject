@@ -1,4 +1,4 @@
-(ns crud.helper
+(ns imagefixer.helper
   (:import (javax.imageio ImageIO)
            (java.io ByteArrayOutputStream FileInputStream ByteArrayInputStream)
            (javax.imageio ImageIO)

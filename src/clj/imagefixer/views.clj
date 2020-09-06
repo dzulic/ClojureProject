@@ -1,4 +1,4 @@
-(ns crud.views
+(ns imagefixer.views
   (:use [hiccup.page :refer :all])
   (:require [hiccup.core :refer (html)]
             [hiccup.form :as f]
