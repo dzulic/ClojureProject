@@ -6,7 +6,6 @@
 
 (def db db-config)
 
-
 (defn create-user-sql [] (jdbc/create-table-ddl :image_fixer.user [[:id :serial "PRIMARY KEY"]
                                                                    [:name "VARCHAR(32)"]
                                                                    [:password "VARCHAR(32)"]
