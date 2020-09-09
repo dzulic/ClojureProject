@@ -21,7 +21,6 @@
                  [ring/ring-json "0.3.1"]
                  [ring-webjars "0.2.0"]
                  [ring-server "0.5.0"]
-                 [net.mikera/imagez "0.12.0"]
                  [quil/quil "2.3.0"]
                  [hiccup "1.0.5"]
                  [org.clojure/tools.cli "0.4.2"]

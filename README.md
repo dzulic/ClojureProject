@@ -31,9 +31,19 @@ Project was developed using:
 - Leiningen: Leiningen is a build automation and dependency management tool for the simple configuration of software projects written in the Clojure programming language
 - Ring:  It's a lower-level framework to handle HTTP requests, with a focus on traditional web development. 
 - Compojure: Compojure is a small routing library for Ring that allows web applications to be composed of small, independent parts.
+- Hiccup: Hiccup is a library for representing HTML in Clojure. It uses vectors to represent elements, and maps to represent an element's attributes.
+- Quin: Library for manipulating the images
 
 ## Project description
 
+User mode consists of *Home page*, *Upload to gallery* page, and *Gallery* page. 
+
+- Any user can create new user
+- User can upload image
+- User can access his gallery
+- User can manipulate the image
+
+When the user wants to exit the system, there is an option in the menu bar for logout.
 
 ## Built with
 - IntelliJ Idea

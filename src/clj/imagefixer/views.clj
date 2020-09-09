@@ -39,6 +39,7 @@
           [:div {:class "row"}
            [:div {:class "col-lg-8 offset-lg-2"}
             (f/form-to {:role "form" :enctype "multipart/form-data"} [:post "/upload-file"]
+                       (f/label {} "pleaseUpload" "Please upload only PNG format")
                        (f/file-upload {:class "form-control"} "file") [:br]
                        (f/label {} "name" "Image Name") [:br]
                        (f/text-field {:class "form-control"} "name") [:br]
@@ -92,7 +93,7 @@
                        (f/hidden-field "id" (get img :id))
                        [:div {:class "row"}
                         [:button {:type "button" :class "btn btn-primary" :onclick "window.location.href='/gallery'"} "Go back to gallery"]
-                        (f/submit-button {:class "btn btn-primary"} "Try to fix it")]
+                        (f/submit-button {:class "btn btn-primary"} "Manipulate the image")]
                        )]]))
 
 (defn view-image [img]

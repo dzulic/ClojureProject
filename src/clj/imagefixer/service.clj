@@ -38,7 +38,7 @@
           )]
     array))
 
-(defn convert-to-black-and-white [id]
+(defn fix-the-image [id]
   (let [pimage (helper/get-p-image (dao/get-image id))
         height (.width pimage)
         width (.height pimage)]
