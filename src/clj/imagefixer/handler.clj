@@ -10,50 +10,58 @@
             [ring.middleware.params :refer [wrap-params]]
             [ring.middleware.multipart-params :refer [wrap-multipart-params]]
             [ring.middleware.session :as session]
+            [buddy.auth.accessrules :refer [restrict]]
             )
   (:gen-class))
 
-(defn authenticated? [name pass]
-  (println (get :session :username))
-  (if (and (= nil? (get :session :username))
-           (= name (get :session :username)))
-    true
-    false))
+(defn authenticated? [{session :session :as req}]
+  (println "SESSION ")
+  (not (nil? session)))
 
-(defroutes protected-routes
-           (context "/documents" [] :tags ["api-documents"]
-                                    (GET "/asas" [] "as")))
+(defn login-user [{params  :form-params
+                   session :session :as req}]
+  (do (if (service/login (get params "username") (get params "password"))
+        (assoc (redirect "/session/main") :session (assoc session :identity (get params "username")))
+        (redirect "/login"))))
+
+(defn create-user [{params :form-params :as req}]
+  (do (service/create-user params)
+      (redirect "/login")))
+
+(defn get-image [{params  :form-params
+                  session :session :as req}]
+  (views/fixer (service/get-image (get params :id))))
+
+(defn logout-user [{session :session :as req}]
+  (assoc (redirect "/") :session (dissoc session :identity)))
 
 (defroutes public-routes
-           (GET "/" [] (views/main))
-           (GET "/upload" [] (views/upload-file))
-           (GET "/create" [] (views/create-user))
-           (POST "/save" [& params]
-             (do (service/save params)
-                 (redirect (views/login))))
-           (POST "/do-login" [& params]
-             (do (service/login (get params :username) (get params :password))
-                 (assoc (redirect "/main") :session {:username (get params :username)})))
-           (GET "/logout" [req]
-             (assoc (redirect "/") :session nil))
+           (GET "/" [] (views/welcome))
+           (POST "/create-user" req (create-user req))
+           (POST "/do-login" req (login-user req))
            (GET "/login" [] (views/login))
+           (GET "/create" [] (views/create-user)))
+
+(defroutes home-routes
+           (route/resources "/")
+           (route/resources "/session/"))
+
+(defroutes protected-routes
+           (GET "/main" [] (views/home))
+           (GET "/upload" [] (views/upload-file))
+           (GET "/logout" req (logout-user req))
            (POST "/upload-file" {{par :params} :arguments :as arguments}
              (service/upload-file (val (first (get arguments :params))) (val (second (get arguments :params)))))
            (GET "/gallery" [] (views/gallery (service/show-all)))
-           (GET "/get" [& params]
-             (views/fixer (service/get-image (get params :id))))
-           (POST "/getpixels" [& params] (views/view-image (service/fix-the-image (get params "id")))))
-
-(defroutes home-routes
-           (route/resources "/"))
-
+           (GET "/get" req (get-image req))
+           (POST "/getpixels" [& params] (views/view-image (service/fix-the-image (get params "id"))))
+           )
 
 (defroutes app-routes
            public-routes
            home-routes
+           (context "/session" [] (restrict protected-routes {:handler authenticated?}))
            (route/not-found "Not Found"))
-
-
 (def app
   (-> app-routes
       wrap-multipart-params

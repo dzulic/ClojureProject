@@ -32,7 +32,8 @@ Project was developed using:
 - Ring:  It's a lower-level framework to handle HTTP requests, with a focus on traditional web development. 
 - Compojure: Compojure is a small routing library for Ring that allows web applications to be composed of small, independent parts.
 - Hiccup: Hiccup is a library for representing HTML in Clojure. It uses vectors to represent elements, and maps to represent an element's attributes.
-- Quin: Library for manipulating the images
+- Quil: Library for manipulating the images
+- Buddy auth: It is used to provide Authentication and Authorization facilities.
 
 ## Project description
 

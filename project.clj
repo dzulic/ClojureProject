@@ -15,6 +15,7 @@
                  [mount "0.1.16"]
                  [nrepl "0.6.0"]
                  [ring-basic-authentication "1.0.5"]
+                 [buddy/buddy-auth "2.1.0"]
                  [ring/ring-jetty-adapter "1.3.2"]
                  [ring/ring-core "1.7.1"]
                  [ring/ring-defaults "0.3.2"]

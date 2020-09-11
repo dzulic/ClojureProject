@@ -34,10 +34,14 @@ body {
 
 .footer {
     height: 80px;
+    width: 100%;
     background-color: #60a3bc;
     clear: both;
     margin-top: auto;
-
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    overflow: hidden;
 }
 
 .form-control {
@@ -100,22 +104,23 @@ img.gallery {
     width: 150px;
 }
 
-#big-image{
+#big-image {
     margin-right: auto;
     margin-left: auto;
     width: 500px;
 
 }
+
 input {
     margin-right: 10px;
 }
 
-a{
+a {
     color: black;
     padding-right: 15px;
 }
 
-.navigation{
+.navigation {
     float: right;
     margin-top: 25px;
     margin-right: 25px;

@@ -9,11 +9,11 @@
      :id   (x :id)
      :name (x :filename)}))
 
-(defn save [params] (dao/user-create params))
+(defn create-user [params] (dao/user-create params))
 (defn login [user pass] (let [result (dao/user-login user pass)]
                           (if (or (= nil result) (= nil :username result))
-                            (throw (Exception. "No user found"))
-                            result)))
+                            false
+                            true)))
 (defn upload-file [file name]
   (dao/image-create
     {:filename    name
