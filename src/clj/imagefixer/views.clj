@@ -34,7 +34,7 @@
 
 (defn layout-with-session [title & content]
   (layout title content [:div {:class "navigation"}
-                         [:a {:href "/session"} "Home"]
+                         [:a {:href "/session/main"} "Home"]
                          [:a {:href "/session/upload"} "Upload to gallery"]
                          [:a {:href "/session/gallery"} "Gallery"]
                          [:a {:href "/session/logout"} "Logout"]]))
@@ -52,7 +52,7 @@
                                     [:div {:class "row"}
                                      (f/submit-button {:class "btn btn-primary btn-center"} "Save image")]
                                     [:div {:class "row"}
-                                     [:button {:type "button" :class "btn btn-primary btn-center" :onclick "window.location.href='/gallery'"} "Go to gallery"]]
+                                     [:button {:type "button" :class "btn btn-primary btn-center" :onclick "window.location.href='/session/gallery'"} "Go to gallery"]]
                                     )]]))
 
 
@@ -98,7 +98,7 @@
                                     (f/hidden-field "image" (get img :val))
                                     (f/hidden-field "id" (get img :id))
                                     [:div {:class "row"}
-                                     [:button {:type "button" :class "btn btn-primary" :onclick "window.location.href='/gallery'"} "Go back to gallery"]
+                                     [:button {:type "button" :class "btn btn-primary" :onclick "window.location.href='/session/gallery'"} "Go back to gallery"]
                                      (f/submit-button {:class "btn btn-primary"} "Manipulate the image")]
                                     )]]))
 
@@ -110,7 +110,7 @@
                                     [:div {:class "row"}
                                      [:img {:src (str "data:image/png;base64," img) :id "big-image"}]]
                                     [:div {:class "row"}
-                                     [:button {:type "button" :class "btn btn-primary" :onclick "window.location.href='/gallery'"} "Go back to gallery"]
+                                     [:button {:type "button" :class "btn btn-primary" :onclick "window.location.href='/session/gallery'"} "Go back to gallery"]
                                      ]
                                     )]]))
 

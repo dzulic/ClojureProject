@@ -28,8 +28,10 @@
   (do (service/create-user params)
       (redirect "/login")))
 
-(defn get-image [{params  :form-params
+(defn get-image [{params  :params
                   session :session :as req}]
+  (println "PARAMS")
+  (println req)
   (views/fixer (service/get-image (get params :id))))
 
 (defn logout-user [{session :session :as req}]
@@ -51,7 +53,8 @@
            (GET "/upload" [] (views/upload-file))
            (GET "/logout" req (logout-user req))
            (POST "/upload-file" {{par :params} :arguments :as arguments}
-             (service/upload-file (val (first (get arguments :params))) (val (second (get arguments :params)))))
+             (service/upload-file (val (first (get arguments :params))) (val (second (get arguments :params))))
+             (redirect "gallery"))
            (GET "/gallery" [] (views/gallery (service/show-all)))
            (GET "/get" req (get-image req))
            (POST "/getpixels" [& params] (views/view-image (service/fix-the-image (get params "id"))))
