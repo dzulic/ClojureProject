@@ -37,6 +37,7 @@ Project was developed using:
 
 ## Project description
 
+Project has different functionalities based on authentication. 
 User mode consists of *Home page*, *Upload to gallery* page, and *Gallery* page. 
 
 - Any user can create new user
